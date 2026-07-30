@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Andrew Johnston — The Iron Frost Universe</title>
+<meta name="description" content="Author Andrew Johnston writes the Iron Frost Universe — epic and YA fantasy forged in ice, scorched by fire.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#10141b;
+    --void-2:#161c25;
+    --frost:#9fc4dd;
+    --frost-pale:#e7f2f8;
+    --ember:#c1502e;
+    --ember-bright:#f0824d;
+    --bone:#efe9de;
+    --bone-2:#e4dccc;
+    --steel:#8a93a0;
+    --iron-line:#2a323d;
+    --ink:#1a1712;
+
+    --display: 'Cinzel', serif;
+    --body: 'Crimson Pro', serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bone);
+    color:var(--ink);
+    font-family:var(--body);
+    font-size:18px;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  ::selection{ background:var(--ember); color:var(--frost-pale); }
+
+  h1,h2,h3{ font-family:var(--display); margin:0; letter-spacing:.02em; }
+  a{ color:inherit; text-decoration:none; }
+  img{ max-width:100%; display:block; }
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:.72rem;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    color:var(--ember);
+  }
+  .eyebrow.on-dark{ color:var(--frost); }
+
+  .wrap{ max-width:1180px; margin:0 auto; padding:0 32px; position:relative; }
+
+  @media (prefers-reduced-motion: reduce){
+    *, *::before, *::after{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; scroll-behavior:auto !important; }
+  }
+
+  /* ---------- NAV ---------- */
+  header.nav{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:20px 32px;
+    background:linear-gradient(to bottom, rgba(16,20,27,.92), rgba(16,20,27,0));
+    transition:background .4s ease, padding .3s ease;
+  }
+  header.nav.scrolled{
+    background:rgba(16,20,27,.86);
+    backdrop-filter:blur(10px);
+    padding:14px 32px;
+    border-bottom:1px solid rgba(159,196,221,.12);
+  }
+  .brand{ display:flex; align-items:center; gap:12px; }
+  .brand-mark{
+    width:34px; height:34px; position:relative; flex:none;
+  }
+  .brand-mark svg{ width:100%; height:100%; }
+  .brand-name{
+    font-family:var(--display); color:var(--frost-pale); font-size:.95rem;
+    letter-spacing:.14em; text-transform:uppercase;
+  }
+  nav.links{ display:flex; gap:34px; }
+  nav.links a{
+    font-family:var(--mono); font-size:.72rem; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--steel);
+    position:relative; padding-bottom:4px;
+  }
+  nav.links a::after{
+    content:''; position:absolute; left:0; bottom:0; height:1px; width:0;
+    background:linear-gradient(90deg, var(--frost), var(--ember));
+    transition:width .35s ease;
+  }
+  nav.links a:hover{ color:var(--frost-pale); }
+  nav.links a:hover::after{ width:100%; }
+  .nav-toggle{ display:none; }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative; height:100svh; min-height:640px;
+    background:var(--void);
+    overflow:hidden;
+    display:flex; align-items:center; justify-content:center;
+    text-align:center;
+  }
+  .hero-side{
+    position:absolute; top:0; bottom:0; width:52%; opacity:0;
+    animation:sideIn 1.6s .2s cubic-bezier(.16,1,.3,1) forwards;
+  }
+  .hero-side.left{
+    left:0;
+    background:radial-gradient(120% 90% at 15% 20%, rgba(90,140,170,.35), transparent 60%),
+               linear-gradient(115deg, #131a22 0%, #0f151c 60%);
+  }
+  .hero-side.right{
+    right:0;
+    background:radial-gradient(120% 90% at 85% 80%, rgba(193,80,46,.30), transparent 60%),
+               linear-gradient(295deg, #17120f 0%, #100e0d 60%);
+    animation-delay:.35s;
+  }
+  @keyframes sideIn{ from{ opacity:0; } to{ opacity:1; } }
+
+  .crack-svg{
+    position:absolute; inset:0; width:100%; height:100%;
+    z-index:2; pointer-events:none;
+  }
+  .crack-path{
+    fill:none; stroke:url(#crackGrad); stroke-width:2;
+    stroke-dasharray:2600; stroke-dashoffset:2600;
+    animation:draw 2.2s .1s cubic-bezier(.65,0,.35,1) forwards;
+    filter:drop-shadow(0 0 6px rgba(159,196,221,.35));
+  }
+  @keyframes draw{ to{ stroke-dashoffset:0; } }
+
+  .particle-field{ position:absolute; inset:0; z-index:1; pointer-events:none; }
+  .mote{
+    position:absolute; bottom:-10%; border-radius:50%;
+    opacity:0; animation:rise linear infinite;
+  }
+  .mote.frost{ background:var(--frost); box-shadow:0 0 6px rgba(159,196,221,.7); }
+  .mote.ember{ background:var(--ember-bright); box-shadow:0 0 8px rgba(240,130,77,.8); }
+  @keyframes rise{
+    0%{ transform:translateY(0) translateX(0); opacity:0; }
+    10%{ opacity:.9; }
+    90%{ opacity:.5; }
+    100%{ transform:translateY(-115vh) translateX(var(--drift,20px)); opacity:0; }
+  }
+
+  .hero-content{ position:relative; z-index:3; padding:0 24px; max-width:780px; }
+  .hero-content .eyebrow{ opacity:0; animation:fadeUp .8s 1.6s ease forwards; }
+  .hero-title{
+    color:var(--frost-pale); font-size:clamp(3rem, 9vw, 6.4rem);
+    text-transform:uppercase; margin:18px 0 10px; line-height:.95;
+    opacity:0; animation:fadeUp .9s 1.8s ease forwards;
+  }
+  .hero-title .fire-letter{ color:var(--ember-bright); }
+  .hero-sub{
+    font-family:var(--body); font-style:italic; color:#c7d2da;
+    font-size:1.2rem; max-width:560px; margin:0 auto 34px;
+    opacity:0; animation:fadeUp .9s 2.1s ease forwards;
+  }
+  .hero-ctas{ display:flex; gap:18px; justify-content:center; flex-wrap:wrap;
+    opacity:0; animation:fadeUp .9s 2.35s ease forwards; }
+  @keyframes fadeUp{ from{opacity:0; transform:translateY(16px);} to{opacity:1; transform:translateY(0);} }
+
+  .btn{
+    font-family:var(--mono); font-size:.75rem; letter-spacing:.14em; text-transform:uppercase;
+    padding:15px 28px; border-radius:2px; border:1px solid transparent; cursor:pointer;
+    transition:transform .3s ease, box-shadow .3s ease, background .3s ease, border-color .3s ease;
+    display:inline-block;
+  }
+  .btn-solid{ background:linear-gradient(100deg, var(--frost), var(--ember-bright)); color:#12100e; }
+  .btn-solid:hover{ transform:translateY(-2px); box-shadow:0 10px 26px -8px rgba(240,130,77,.5); }
+  .btn-ghost{ border-color:rgba(231,242,248,.35); color:var(--frost-pale); }
+  .btn-ghost:hover{ border-color:var(--frost-pale); background:rgba(231,242,248,.06); transform:translateY(-2px); }
+
+  .scroll-cue{
+    position:absolute; bottom:30px; left:50%; transform:translateX(-50%); z-index:3;
+    color:var(--steel); font-family:var(--mono); font-size:.65rem; letter-spacing:.2em;
+    text-transform:uppercase; opacity:0; animation:fadeUp .9s 2.6s ease forwards;
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+  }
+  .scroll-cue span.line{ width:1px; height:34px; background:linear-gradient(var(--frost), transparent);
+    animation:pulseLine 2s ease-in-out infinite; }
+  @keyframes pulseLine{ 0%,100%{ opacity:.3; } 50%{ opacity:1; } }
+
+  /* ---------- FRACTURE SPINE (runs through content sections) ---------- */
+  .spine-wrap{ position:relative; }
+  .spine{
+    position:absolute; left:50%; top:0; bottom:0; width:2px;
+    transform:translateX(-50%);
+    background:linear-gradient(to bottom, var(--iron-line), var(--iron-line));
+    z-index:0; display:none;
+  }
+  @media(min-width:960px){ .spine{ display:block; } }
+  .spine-node{
+    position:absolute; left:50%; width:9px; height:9px; border-radius:50%;
+    transform:translate(-50%,-50%) scale(0);
+    background:var(--steel); box-shadow:0 0 0 4px var(--bone);
+    transition:transform .5s cubic-bezier(.34,1.56,.64,1), background .5s ease, box-shadow .5s ease;
+  }
+  .spine-node.frost.lit{ background:var(--frost); box-shadow:0 0 0 4px var(--bone), 0 0 14px rgba(159,196,221,.8); transform:translate(-50%,-50%) scale(1); }
+  .spine-node.ember.lit{ background:var(--ember-bright); box-shadow:0 0 0 4px var(--bone), 0 0 14px rgba(240,130,77,.8); transform:translate(-50%,-50%) scale(1); }
+
+  section{ position:relative; z-index:1; }
+
+  .reveal{ opacity:0; transform:translateY(28px); transition:opacity .8s ease, transform .8s cubic-bezier(.16,1,.3,1); }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+  .reveal.delay-1.in{ transition-delay:.12s; }
+  .reveal.delay-2.in{ transition-delay:.24s; }
+  .reveal.delay-3.in{ transition-delay:.36s; }
+
+  /* ---------- ABOUT ---------- */
+  .about{ padding:150px 0 120px; }
+  .about-grid{ display:grid; grid-template-columns:1.1fr 1fr; gap:70px; align-items:start; }
+  @media(max-width:860px){ .about-grid{ grid-template-columns:1fr; gap:40px; } }
+  .about h2{ font-size:clamp(2rem, 4vw, 2.7rem); margin:14px 0 26px; color:var(--ink); }
+  .about p{ color:#3c3629; margin:0 0 18px; font-size:1.08rem; }
+  .about p:last-child{ margin-bottom:0; }
+
+  .duality{ display:flex; flex-direction:column; gap:0; border:1px solid var(--bone-2); }
+  .duality-item{ padding:28px 26px; position:relative; }
+  .duality-item + .duality-item{ border-top:1px solid var(--bone-2); }
+  .duality-item.day{ background:linear-gradient(120deg, #f4f0e6, var(--bone)); }
+  .duality-item.night{ background:linear-gradient(120deg, #171c24, #10141b); color:var(--frost-pale); }
+  .duality-label{ font-family:var(--mono); font-size:.68rem; letter-spacing:.24em; text-transform:uppercase; }
+  .duality-item.day .duality-label{ color:var(--ember); }
+  .duality-item.night .duality-label{ color:var(--frost); }
+  .duality-item h3{ font-size:1.3rem; margin:10px 0 8px; }
+  .duality-item.night h3{ color:var(--frost-pale); }
+  .duality-item p{ margin:0; font-size:.98rem; }
+  .duality-item.day p{ color:#4a4433; }
+  .duality-item.night p{ color:#b7c2cb; }
+
+  /* ---------- BOOKS ---------- */
+  .books{ padding:110px 0 130px; background:var(--void); }
+  .books .eyebrow{ text-align:center; }
+  .books h2{ color:var(--frost-pale); text-align:center; font-size:clamp(2rem,4vw,2.7rem); margin:14px auto 8px; }
+  .books-intro{ text-align:center; color:#aab4bd; max-width:560px; margin:0 auto 70px; font-style:italic; }
+
+  .book-cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:34px; }
+  @media(max-width:920px){ .book-cards{ grid-template-columns:1fr; max-width:420px; margin:0 auto; } }
+
+  .book-card{
+    background:linear-gradient(160deg, var(--void-2), #12161e);
+    border:1px solid var(--iron-line);
+    padding:28px 24px 30px;
+    position:relative; overflow:hidden;
+    transform-style:preserve-3d; perspective:800px;
+    transition:border-color .4s ease, transform .5s cubic-bezier(.16,1,.3,1);
+  }
+  .book-card:hover{ border-color:rgba(159,196,221,.4); }
+  .book-card.ember-tone:hover{ border-color:rgba(240,130,77,.45); }
+  .book-cover-frame{ position:relative; overflow:hidden; margin-bottom:22px; }
+  .book-cover-frame img{ width:100%; transition:transform .7s cubic-bezier(.16,1,.3,1); }
+  .book-card:hover .book-cover-frame img{ transform:scale(1.045); }
+  .glint{
+    position:absolute; top:0; left:-60%; width:40%; height:100%;
+    background:linear-gradient(100deg, transparent, rgba(255,255,255,.16), transparent);
+    transform:skewX(-18deg); transition:left .9s ease;
+  }
+  .book-card:hover .glint{ left:130%; }
+
+  .book-tag{ font-family:var(--mono); font-size:.63rem; letter-spacing:.18em; text-transform:uppercase; }
+  .book-card .book-tag{ color:var(--frost); }
+  .book-card.ember-tone .book-tag{ color:var(--ember-bright); }
+  .book-card h3{ color:var(--frost-pale); font-size:1.32rem; margin:10px 0 12px; line-height:1.2; }
+  .book-card p{ color:#a7b1ba; font-size:.96rem; margin:0 0 22px; }
+  .book-link{
+    font-family:var(--mono); font-size:.7rem; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--frost-pale); border-bottom:1px solid rgba(231,242,248,.3);
+    padding-bottom:3px; transition:border-color .3s ease, color .3s ease;
+  }
+  .book-card.ember-tone .book-link{ border-color:rgba(240,130,77,.35); }
+  .book-link:hover{ color:var(--frost); border-color:var(--frost); }
+  .book-card.ember-tone .book-link:hover{ color:var(--ember-bright); border-color:var(--ember-bright); }
+
+  /* ---------- PRAISE ---------- */
+  .praise{ padding:120px 0; text-align:center; }
+  .praise .stars{ color:var(--ember); font-size:1.1rem; letter-spacing:.3em; margin-bottom:26px; }
+  .praise blockquote{
+    margin:0 auto; max-width:720px; font-family:var(--display); font-size:clamp(1.5rem,3vw,2.2rem);
+    line-height:1.5; color:var(--ink); font-weight:500;
+  }
+  .praise cite{ display:block; margin-top:26px; font-family:var(--mono); font-size:.75rem;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--steel); font-style:normal; }
+
+  /* ---------- JOIN ---------- */
+  .join{ padding:20px 0 130px; }
+  .join-grid{ display:grid; grid-template-columns:1fr 1fr; gap:30px; }
+  @media(max-width:820px){ .join-grid{ grid-template-columns:1fr; } }
+  .join-card{
+    padding:44px 38px; border:1px solid var(--bone-2);
+    background:var(--bone); position:relative; overflow:hidden;
+  }
+  .join-card::before{
+    content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  }
+  .join-card.newsletter::before{ background:linear-gradient(90deg, var(--frost), transparent); }
+  .join-card.arc::before{ background:linear-gradient(90deg, var(--ember), transparent); }
+  .join-card h3{ font-size:1.55rem; margin:14px 0 14px; }
+  .join-card p{ color:#4a4433; margin:0 0 26px; }
+
+  /* ---------- FOOTER ---------- */
+  footer{ background:var(--void); color:#8b95a0; padding:70px 0 34px; }
+  .footer-top{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:40px; margin-bottom:50px; }
+  .footer-brand{ max-width:340px; }
+  .footer-brand .brand-name{ margin-bottom:14px; display:inline-block; }
+  .footer-brand p{ font-size:.95rem; color:#78818c; }
+  .footer-links{ display:flex; gap:60px; flex-wrap:wrap; }
+  .footer-col h4{ font-family:var(--mono); font-size:.68rem; letter-spacing:.18em; text-transform:uppercase; color:var(--frost); margin:0 0 16px; }
+  .footer-col a{ display:block; font-size:.92rem; color:#a3acb5; margin-bottom:10px; transition:color .3s ease; }
+  .footer-col a:hover{ color:var(--frost-pale); }
+  .footer-bottom{ border-top:1px solid var(--iron-line); padding-top:26px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; font-family:var(--mono); font-size:.7rem; letter-spacing:.06em; color:#5c6572; }
+
+  @media(max-width:760px){
+    nav.links{ display:none; }
+    .footer-top{ flex-direction:column; }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav" id="siteNav">
+  <a href="#top" class="brand">
+    <span class="brand-mark">
+      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="markGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#9fc4dd"/>
+            <stop offset="100%" stop-color="#f0824d"/>
+          </linearGradient>
+        </defs>
+        <path d="M20 2 L36 20 L20 38 L4 20 Z" fill="none" stroke="url(#markGrad)" stroke-width="1.6"/>
+        <path d="M20 10 L28 20 L20 30 L12 20 Z" fill="none" stroke="url(#markGrad)" stroke-width="1.2" opacity="0.7"/>
+      </svg>
+    </span>
+    <span class="brand-name">Iron Frost</span>
+  </a>
+  <nav class="links">
+    <a href="#books">Books</a>
+    <a href="#about">About</a>
+    <a href="#praise">Praise</a>
+    <a href="#join">Newsletter</a>
+    <a href="#join">ARC Team</a>
+    <a href="#footer">Contact</a>
+  </nav>
+</header>
+
+<section class="hero" id="top">
+  <div class="hero-side left"></div>
+  <div class="hero-side right"></div>
+
+  <svg class="crack-svg" viewBox="0 0 1200 800" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="crackGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#9fc4dd"/>
+        <stop offset="50%" stop-color="#e7f2f8"/>
+        <stop offset="100%" stop-color="#f0824d"/>
+      </linearGradient>
+    </defs>
+    <path class="crack-path" d="M600 0 L588 60 L612 95 L580 150 L604 190 L570 250 L598 300 L565 360 L602 410 L578 470 L610 520 L588 580 L616 630 L594 690 L608 740 L600 800" />
+  </svg>
+
+  <div class="particle-field" id="particleField"></div>
+
+  <div class="hero-content">
+    <div class="eyebrow on-dark">Self-Published Fantasy · Pennsylvania</div>
+    <h1 class="hero-title">Iron Fr<span class="fire-letter">o</span>st</h1>
+    <p class="hero-sub">A universe carved from ice, scorched by fire — built one tournament, one exile, one rebellion at a time. By author Andrew Johnston.</p>
+    <div class="hero-ctas">
+      <a href="#books" class="btn btn-solid">Read the Books</a>
+      <a href="#join" class="btn btn-ghost">Join the Newsletter</a>
+    </div>
+  </div>
+
+  <div class="scroll-cue"><span class="line"></span>Scroll</div>
+</section>
+
+<div class="spine-wrap">
+  <div class="spine" id="spineLine"></div>
+
+  <section class="about" id="about">
+    <div class="wrap">
+      <div class="spine-node frost" data-spine style="top:40px;"></div>
+      <div class="about-grid">
+        <div class="reveal">
+          <div class="eyebrow">The Author</div>
+          <h2>By day, a custodian.<br>By night, a world-builder.</h2>
+          <p>Andrew Johnston didn't pick up a pen until twenty-five — before that, his creative hours went to drawing, not writing. It was tearing through George R.R. Martin's <em>A Song of Ice and Fire</em> that pulled him into fantasy for good, and into a community of fellow writers he still counts as friends.</p>
+          <p>In December 2023 he signed his debut novel, <em>Primnoire</em>, with Warrioress Publishing — the book that would become the first seed of the Iron Frost Universe. It was well received, earning him a handful of interviews along the way.</p>
+          <p>Since then, Andrew's path has turned independent. He's not ruling out traditional publishing again someday, but for now, the Iron Frost Universe is being built his own way — one self-published book at a time, from a home in Pennsylvania.</p>
+        </div>
+        <div class="duality reveal delay-1">
+          <div class="duality-item day">
+            <div class="duality-label">Day</div>
+            <h3>High School Custodian</h3>
+            <p>Keeping the halls of a Pennsylvania high school running — the practical, hands-on work that pays the bills.</p>
+          </div>
+          <div class="duality-item night">
+            <div class="duality-label">Night</div>
+            <h3>Fantasy Author</h3>
+            <p>Building the Iron Frost Universe book by book — dragons, dictators, and princesses with scores to settle.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="books" id="books">
+    <div class="wrap">
+      <div class="spine-node ember" data-spine style="top:0px;"></div>
+      <div class="eyebrow on-dark reveal">The Iron Frost Universe</div>
+      <h2 class="reveal">Three books. One universe taking shape.</h2>
+      <p class="books-intro reveal delay-1">A debut novel and two standalone prequels — each its own tournament, each building toward the larger saga still to come.</p>
+
+      <div class="book-cards">
+        <article class="book-card reveal">
+          <div class="glint"></div>
+          <div class="book-cover-frame">
+            <img src="https://static.wixstatic.com/media/4f1a59_057ccf689ace48bb9dabc49db40ec2fb~mv2.jpg/v1/fill/w_694,h_954,al_c,q_90,enc_avif,quality_auto/TIM%20Cover%20DONE%20(1).jpg" alt="The Ignited Moon book cover" loading="lazy">
+          </div>
+          <div class="book-tag">Prequel I · Epic Fantasy</div>
+          <h3>The Ignited Moon</h3>
+          <p>A revenge-seeking ice princess must master a centuries-old ceremonial dance to save her brother — and her world — from a threat that burns on a cosmic scale. Political intrigue, dragons, and stakes that reach past one kingdom.</p>
+          <a class="book-link" href="https://www.amazon.com/Ignited-Moon-Iron-Frost-Universe/dp/B0F27TYM2Z/ref=sr_1_1" target="_blank" rel="noopener">Purchase on Amazon →</a>
+        </article>
+
+        <article class="book-card reveal delay-1">
+          <div class="glint"></div>
+          <div class="book-cover-frame">
+            <img src="https://static.wixstatic.com/media/4f1a59_a3304089bb7d4f558616ac43e6243eb2~mv2.jpg/v1/fill/w_632,h_890,al_c,q_90,enc_avif,quality_auto/TDK%20ebook%20DONE.jpg" alt="The Discarded Knight book cover" loading="lazy">
+          </div>
+          <div class="book-tag">Debut Novel · YA Portal Fantasy</div>
+          <h3>The Discarded Knight</h3>
+          <p>Alfred wants one thing: friendship. When his own father banishes him to another dimension, he finds a found family instead — and one tournament standing between them and disappearing forever. A Victorian-era outcast's journey from exile to hero, with genuine autistic representation at its heart.</p>
+          <a class="book-link" href="https://www.amazon.com/Discarded-Knight-Andrew-Johnston/dp/B0DC52MQ8D/ref=tmm_pap_swatch_0" target="_blank" rel="noopener">Purchase on Amazon →</a>
+        </article>
+
+        <article class="book-card ember-tone reveal delay-2">
+          <div class="glint"></div>
+          <div class="book-cover-frame">
+            <img src="https://static.wixstatic.com/media/4f1a59_b61322ae8afa4ba6a53e28b971b70b78~mv2.jpg/v1/fill/w_686,h_1030,al_c,q_90,enc_avif,quality_auto/The-Scorched-Hunter-original.jpg" alt="The Scorched Hunter book cover" loading="lazy">
+          </div>
+          <div class="book-tag">Prequel II · Epic Fantasy</div>
+          <h3>The Scorched Hunter</h3>
+          <p>Scarred by dragon fire, Anna has kept to the woods, away from people. But a rising dictatorship won't let her stay hidden — she has one chance to face her fear, win a tournament, and keep her country from authoritarian rule.</p>
+          <a class="book-link" href="https://www.amazon.com/Scorched-Hunter-Frost-Universe-Prequels-ebook/dp/B0FPMHSHZZ/ref=books_amazonstores_desktop_mfs_aufs_ap_sc_dsk_2" target="_blank" rel="noopener">Purchase on Amazon →</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="praise" id="praise">
+    <div class="wrap">
+      <div class="spine-node frost" data-spine style="top:20px;"></div>
+      <div class="stars reveal">★★★★★</div>
+      <blockquote class="reveal delay-1">A five-star reader called <em>The Discarded Knight</em> a beautiful story — and singled out its authentic autistic representation as something they'd been waiting to see.</blockquote>
+      <cite class="reveal delay-2">— Verified Amazon Reader</cite>
+    </div>
+  </section>
+
+  <section class="join" id="join">
+    <div class="wrap">
+      <div class="spine-node ember" data-spine style="top:0px;"></div>
+      <div class="join-grid">
+        <div class="join-card newsletter reveal">
+          <div class="eyebrow">Stay Close to the Story</div>
+          <h3>Join the Newsletter</h3>
+          <p>Cover reveals, new chapters, and release news before anyone else hears about it — straight from Andrew, no spam.</p>
+          <a class="btn btn-solid" href="https://www.authorandrewjohnston.com/newsletter" target="_blank" rel="noopener">Sign Up Free</a>
+        </div>
+        <div class="join-card arc reveal delay-1">
+          <div class="eyebrow">Read It First</div>
+          <h3>Join the ARC Team</h3>
+          <p>Get early access to new Iron Frost releases before they launch, and help shape the story with your feedback.</p>
+          <a class="btn btn-ghost" style="border-color:#c9b8a3; color:#1a1712;" href="https://docs.google.com/forms/d/e/1FAIpQLSexeRwZThaMrRHrJYf8iHyVKJwkqWGUCfM0qHeS0-3rAofLxg/viewform?usp=sf_link" target="_blank" rel="noopener">Reader Sign-up</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer id="footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <span class="brand-name">Iron Frost</span>
+        <p>The Iron Frost Universe is written by Andrew Johnston, a self-published fantasy author and high school custodian from Pennsylvania.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <a href="#books">Books</a>
+          <a href="#about">About</a>
+          <a href="#praise">Praise</a>
+        </div>
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <a href="#join">Newsletter</a>
+          <a href="#join">ARC Team</a>
+          <a href="mailto:awjohnston164@gmail.com">Contact</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Andrew Johnston. All rights reserved.</span>
+      <span>awjohnston164@gmail.com</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Nav background on scroll
+  const nav = document.getElementById('siteNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive:true });
+
+  // Reveal-on-scroll
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const revealEls = document.querySelectorAll('.reveal');
+  if (reduceMotion) {
+    revealEls.forEach(el => el.classList.add('in'));
+  } else {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('in');
+      });
+    }, { threshold:0.15 });
+    revealEls.forEach(el => io.observe(el));
+  }
+
+  // Spine nodes light up + spine line grows with scroll progress
+  const spineLine = document.getElementById('spineLine');
+  const nodes = document.querySelectorAll('[data-spine]');
+  const spineWrap = document.querySelector('.spine-wrap');
+
+  if (spineLine) {
+    const nodeIO = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('lit');
+      });
+    }, { threshold:0.4 });
+    nodes.forEach(n => nodeIO.observe(n));
+
+    const updateSpine = () => {
+      const rect = spineWrap.getBoundingClientRect();
+      const total = rect.height;
+      const seen = Math.min(Math.max(-rect.top + window.innerHeight * 0.6, 0), total);
+      const pct = total > 0 ? (seen / total) * 100 : 0;
+      spineLine.style.background = `linear-gradient(to bottom, var(--frost) 0%, var(--ember-bright) ${pct}%, var(--iron-line) ${pct}%, var(--iron-line) 100%)`;
+    };
+    window.addEventListener('scroll', updateSpine, { passive:true });
+    window.addEventListener('resize', updateSpine);
+    updateSpine();
+  }
+
+  // Ambient frost + ember particles in hero
+  if (!reduceMotion) {
+    const field = document.getElementById('particleField');
+    const COUNT = 26;
+    for (let i = 0; i < COUNT; i++) {
+      const mote = document.createElement('div');
+      const isFrost = i % 2 === 0;
+      mote.className = 'mote ' + (isFrost ? 'frost' : 'ember');
+      const size = 2 + Math.random() * 3;
+      mote.style.width = size + 'px';
+      mote.style.height = size + 'px';
+      mote.style.left = (isFrost ? (2 + Math.random() * 40) : (58 + Math.random() * 40)) + '%';
+      mote.style.setProperty('--drift', (Math.random() * 60 - 30) + 'px');
+      const duration = 9 + Math.random() * 10;
+      mote.style.animationDuration = duration + 's';
+      mote.style.animationDelay = (Math.random() * duration) + 's';
+      field.appendChild(mote);
+    }
+  }
+
+  // Subtle tilt on book cards
+  if (!reduceMotion && window.matchMedia('(hover:hover)').matches) {
+    document.querySelectorAll('.book-card').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        card.style.transform = `rotateY(${x * 6}deg) rotateX(${-y * 6}deg) translateY(-4px)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'rotateY(0) rotateX(0) translateY(0)';
+      });
+    });
+  }
+</script>
+
+</body>
+</html>
